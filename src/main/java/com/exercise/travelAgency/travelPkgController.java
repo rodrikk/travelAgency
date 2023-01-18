@@ -1,7 +1,10 @@
 package com.exercise.travelAgency;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,21 +13,31 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 class travelPkgController {
 
     private final travelPkgRepository repository;
+    private final travelPkgModelAssembler assembler;
 
-    public travelPkgController(travelPkgRepository repository) {
+    public travelPkgController(travelPkgRepository repository, travelPkgModelAssembler assemble) {
         this.repository = repository;
+        this.assembler = assemble;
     }
 
 
     // Aggregate root
     // tag::get-aggregate-root[]
     @GetMapping("/travelPkgs")
-    List<travelPkg> all() {
-        return repository.findAll();
+    CollectionModel<EntityModel<travelPkg>> all() {
+
+        List<EntityModel<travelPkg>> packs = repository.findAll().stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(packs, linkTo(methodOn(reservationController.class).all()).withSelfRel());
     }
     // end::get-aggregate-root[]
 
@@ -36,10 +49,12 @@ class travelPkgController {
     // Single item
 
     @GetMapping("/travelPkgs/{id}")
-    travelPkg one(@PathVariable Integer id) {
+    EntityModel<travelPkg> one(@PathVariable Integer id) {
 
-        return repository.findById(id)
+        travelPkg pack = repository.findById(id)
                 .orElseThrow(() -> new travelPkgNotFoundException(id));
+
+        return assembler.toModel(pack);
     }
 
     @PutMapping("/travelPkgs/{id}")
