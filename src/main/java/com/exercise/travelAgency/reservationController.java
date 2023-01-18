@@ -1,7 +1,10 @@
 package com.exercise.travelAgency;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,21 +13,31 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 class reservationController {
 
     private final reservationRepository repository;
+    private final reservationModelAssembler assembler;
 
-    public reservationController(reservationRepository repository) {
+    public reservationController(reservationRepository repository, reservationModelAssembler assemble) {
         this.repository = repository;
+        this.assembler = assemble;
     }
 
 
     // Aggregate root
     // tag::get-aggregate-root[]
     @GetMapping("/reservations")
-    List<reservation> all() {
-        return repository.findAll();
+    CollectionModel<EntityModel<reservation>> all() {
+
+        List<EntityModel<reservation>> reserves = repository.findAll().stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(reserves, linkTo(methodOn(reservationController.class).all()).withSelfRel());
     }
     // end::get-aggregate-root[]
 
@@ -36,10 +49,12 @@ class reservationController {
     // Single item
 
     @GetMapping("/reservations/{id}")
-    reservation one(@PathVariable Integer id) {
+    EntityModel<reservation> one(@PathVariable Integer id) {
 
-        return repository.findById(id)
+        reservation res = repository.findById(id)
                 .orElseThrow(() -> new reservationNotFoundException(id));
+
+        return assembler.toModel(res);
     }
 
     @PutMapping("/reservations/{id}")
