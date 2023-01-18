@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 public class travelPkg {
-    private @Id @GeneratedValue int id;
+    private @Id @GeneratedValue Integer id;
     private String airLineName, hotelName, destination, hotelService;
     private float pricePerPerson;
     private Date returnDate, departDate;

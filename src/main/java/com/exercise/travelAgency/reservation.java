@@ -8,24 +8,24 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class reservations {
-    private @Id @GeneratedValue int id;
+public class reservation {
+    private @Id @GeneratedValue Integer id;
     private String firstName, lastName;
     private Date reservationDate;
     private float paidDeposit;
 
     private travelPkg bookedPkg;
 
-    public reservations() {}
+    public reservation() {}
 
-    public reservations(String firstName, String lastName, Date reservationDate, float paidDeposit) {
+    public reservation(String firstName, String lastName, Date reservationDate, float paidDeposit) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.reservationDate = reservationDate;
         this.paidDeposit = paidDeposit;
     }
 
-    public reservations(String firstName, String lastName, Date reservationDate, float paidDeposit, travelPkg bookedPkg) {
+    public reservation(String firstName, String lastName, Date reservationDate, float paidDeposit, travelPkg bookedPkg) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.reservationDate = reservationDate;
@@ -83,12 +83,12 @@ public class reservations {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof reservations))
+        if(!(obj instanceof reservation))
             return false;
         else if(obj==this)
             return true;
         else {
-            reservations aux = (reservations) obj;
+            reservation aux = (reservation) obj;
             return this.id==aux.getId()&&this.firstName.equals(aux.getFirstName())&&
                     this.lastName.equals(aux.getLastName())&&this.reservationDate.equals(aux.getReservationDate());
         }
