@@ -11,7 +11,7 @@ public class travelPkgModelAssembler implements RepresentationModelAssembler<tra
     @Override
     public EntityModel<travelPkg> toModel(travelPkg entity) {
         return EntityModel.of(entity, //
-                linkTo(methodOn(reservationController.class).one(entity.getId())).withSelfRel(),
-                linkTo(methodOn(reservationController.class).all()).withRel("travelPkgs"));
+                linkTo(methodOn(travelPkgController.class).one(entity.getId())).withSelfRel(),
+                linkTo(methodOn(travelPkgController.class).all()).withRel("travelPkgs"));
     }
 }

@@ -49,7 +49,7 @@ class travelPkgController {
     // Single item
 
     @GetMapping("/travelPkgs/{id}")
-    EntityModel<travelPkg> one(@PathVariable Integer id) {
+    public EntityModel<travelPkg> one(@PathVariable Integer id) {
 
         travelPkg pack = repository.findById(id)
                 .orElseThrow(() -> new travelPkgNotFoundException(id));
