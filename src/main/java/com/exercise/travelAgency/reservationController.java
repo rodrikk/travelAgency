@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Links;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +24,12 @@ class reservationController {
     private final reservationRepository repository;
     private final reservationModelAssembler assembler;
 
-    public reservationController(reservationRepository repository, reservationModelAssembler assemble) {
+    private final travelPkgController packCont;
+
+    public reservationController(reservationRepository repository, reservationModelAssembler assemble, travelPkgController packCon) {
         this.repository = repository;
         this.assembler = assemble;
+        this.packCont = packCon;
     }
 
 
@@ -57,6 +62,12 @@ class reservationController {
         return assembler.toModel(res);
     }
 
+    @GetMapping("/reservations/{id}/bookedPkg")
+    EntityModel<travelPkg> getsPack(@PathVariable Integer id) {
+        return packCont.one(repository.findById(id)
+                .orElseThrow(() -> new reservationNotFoundException(id)).getBookedPkg().getId());
+    }
+
     @PutMapping("/reservations/{id}")
     reservation replaceReservation(@RequestBody reservation newreservation, @PathVariable Integer id) {
 
@@ -66,12 +77,25 @@ class reservationController {
                     reservation.setLastName(newreservation.getLastName());
                     reservation.setReservationDate(newreservation.getReservationDate());
                     reservation.setPaidDeposit(newreservation.getPaidDeposit());
+                    reservation.setBookedPkg(newreservation.getBookedPkg());
                     return repository.save(reservation);
                 })
                 .orElseGet(() -> {
                     newreservation.setId(id);
                     return repository.save(newreservation);
                 });
+    }
+
+    @PutMapping("/reservations/{id}/bookedPkg")
+    reservation replaceBookedPkg(@RequestBody String packLink, @PathVariable Integer id) {
+        String[] aux = packLink.split("/");
+        travelPkg pack = packCont.one(Integer.parseInt(aux[aux.length-1])).getContent();
+        return repository.findById(id)
+                .map(reservation -> {
+                    reservation.setBookedPkg(pack);
+                    return repository.save(reservation);
+                })
+                .orElseThrow(() -> new reservationNotFoundException(id));
     }
 
     @DeleteMapping("/reservations/{id}")

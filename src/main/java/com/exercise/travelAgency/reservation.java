@@ -1,8 +1,6 @@
 package com.exercise.travelAgency;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.Objects;
@@ -14,7 +12,8 @@ public class reservation {
     private Date reservationDate;
     private float paidDeposit;
 
-    //private travelPkg bookedPkg;
+    @ManyToOne @JoinColumn(name="pack_id", referencedColumnName = "id")
+    private travelPkg bookedPkg;
 
     public reservation() {}
 
@@ -25,13 +24,13 @@ public class reservation {
         this.paidDeposit = paidDeposit;
     }
 
-    /*public reservation(String firstName, String lastName, Date reservationDate, float paidDeposit, travelPkg bookedPkg) {
+    public reservation(String firstName, String lastName, Date reservationDate, float paidDeposit, travelPkg bookedPkg) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.reservationDate = reservationDate;
         this.paidDeposit = paidDeposit;
         this.bookedPkg = bookedPkg;
-    }*/
+    }
 
     public int getId() {
         return id;
@@ -71,7 +70,7 @@ public class reservation {
 
     public void setPaidDeposit(float paidDeposit) {
         this.paidDeposit = paidDeposit;
-    }/*
+    }
 
     public travelPkg getBookedPkg() {
         return bookedPkg;
@@ -79,7 +78,7 @@ public class reservation {
 
     public void setBookedPkg(travelPkg bookedPkg) {
         this.bookedPkg = bookedPkg;
-    }*/
+    }
 
     @Override
     public boolean equals(Object obj) {
