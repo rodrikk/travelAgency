@@ -26,6 +26,9 @@ public class reservationModelAssembler implements RepresentationModelAssembler<r
             modelo.add(linkTo(methodOn(reservationController.class).cancel(entity.getId())).withRel("Cancel"));
             modelo.add(linkTo(methodOn(reservationController.class).complete(entity.getId())).withRel("Complete"));
         }
+        else if(entity.getStatus() == Status.COMPLETED)
+            modelo.add(linkTo(methodOn(reservationController.class).cancel(entity.getId())).withRel("Cancel"));
+
         return modelo;
     }
 }

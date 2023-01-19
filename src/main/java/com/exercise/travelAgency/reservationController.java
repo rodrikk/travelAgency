@@ -113,7 +113,7 @@ class reservationController {
         reservation reserve = repository.findById(id) //
                 .orElseThrow(() -> new reservationNotFoundException(id));
 
-        if (reserve.getStatus() == Status.IN_PROGRESS) {
+        if (reserve.getStatus() == Status.IN_PROGRESS || reserve.getStatus() == Status.COMPLETED) {
             reserve.setStatus(Status.CANCELLED);
             return ResponseEntity.ok(assembler.toModel(repository.save(reserve)));
         }
