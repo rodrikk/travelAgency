@@ -14,7 +14,7 @@ public class reservationModelAssembler implements RepresentationModelAssembler<r
             return EntityModel.of(entity, //
                     linkTo(methodOn(reservationController.class).one(entity.getId())).withSelfRel(),
                     linkTo(methodOn(reservationController.class).all()).withRel("reservations"),
-                    linkTo(methodOn(travelPkgController.class).one(entity.getBookedPkg().getId())).withRel("travelPkgs"));
+                    linkTo(methodOn(travelPkgController.class).one(entity.getBookedPkg().getId())).withRel("bookedPkg"));
         } catch (NullPointerException ex) {
             return EntityModel.of(entity, //
                     linkTo(methodOn(reservationController.class).one(entity.getId())).withSelfRel(),
