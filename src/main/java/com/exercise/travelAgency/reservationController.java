@@ -1,10 +1,14 @@
 package com.exercise.travelAgency;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.*;
+import org.springframework.hateoas.mediatype.problem.Problem;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,6 +80,7 @@ class reservationController {
                     reservation.setReservationDate(newreservation.getReservationDate());
                     reservation.setPaidDeposit(newreservation.getPaidDeposit());
                     reservation.setBookedPkg(newreservation.getBookedPkg());
+                    reservation.setStatus(newreservation.getStatus());
                     return repository.save(reservation);
                 })
                 .orElseGet(() -> {
@@ -86,8 +91,9 @@ class reservationController {
 
     @PutMapping("/reservations/{id}/bookedPkg")
     reservation replaceBookedPkg(@RequestBody String packLink, @PathVariable Integer id) {
-        String[] aux = packLink.split("/");
-        travelPkg pack = packCont.one(Integer.parseInt(aux[aux.length-1])).getContent();
+        org.springframework.web.util.UriTemplate uriTemplate = new org.springframework.web.util.UriTemplate("/travelPkgs/{packId}");
+        Map<String, String> uriVars = uriTemplate.match(packLink);
+        travelPkg pack = packCont.one(Integer.parseInt(uriVars.get("packId"))).getContent();
         return repository.findById(id)
                 .map(reservation -> {
                     reservation.setBookedPkg(pack);
@@ -99,5 +105,43 @@ class reservationController {
     @DeleteMapping("/reservations/{id}")
     void deleteReservation(@PathVariable Integer id) {
         repository.deleteById(id);
+    }
+
+    @DeleteMapping("/reservations/{id}/cancel")
+    ResponseEntity<?> cancel(@PathVariable Integer id) {
+
+        reservation reserve = repository.findById(id) //
+                .orElseThrow(() -> new reservationNotFoundException(id));
+
+        if (reserve.getStatus() == Status.IN_PROGRESS) {
+            reserve.setStatus(Status.CANCELLED);
+            return ResponseEntity.ok(assembler.toModel(repository.save(reserve)));
+        }
+
+        return ResponseEntity //
+                .status(HttpStatus.METHOD_NOT_ALLOWED) //
+                .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE) //
+                .body(Problem.create() //
+                        .withTitle("Method not allowed") //
+                        .withDetail("You can't cancel an order that is in the " + reserve.getStatus() + " status"));
+    }
+
+    @PutMapping("/reservations/{id}/complete")
+    ResponseEntity<?> complete(@PathVariable Integer id) {
+
+        reservation reserve = repository.findById(id) //
+                .orElseThrow(() -> new reservationNotFoundException(id));
+
+        if (reserve.getStatus() == Status.IN_PROGRESS) {
+            reserve.setStatus(Status.COMPLETED);
+            return ResponseEntity.ok(assembler.toModel(repository.save(reserve)));
+        }
+
+        return ResponseEntity //
+                .status(HttpStatus.METHOD_NOT_ALLOWED) //
+                .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE) //
+                .body(Problem.create() //
+                        .withTitle("Method not allowed") //
+                        .withDetail("You can't complete an order that is in the " + reserve.getStatus() + " status"));
     }
 }

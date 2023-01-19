@@ -5,12 +5,21 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+enum Status {
+
+    IN_PROGRESS, //
+    COMPLETED, //
+    CANCELLED
+}
+
 @Entity
 public class reservation {
     private @Id @GeneratedValue Integer id;
     private String firstName, lastName;
     private Date reservationDate;
     private float paidDeposit;
+
+    private Status status;
 
     @ManyToOne @JoinColumn(name="pack_id", referencedColumnName = "id")
     private travelPkg bookedPkg;
@@ -22,6 +31,7 @@ public class reservation {
         this.lastName = lastName;
         this.reservationDate = reservationDate;
         this.paidDeposit = paidDeposit;
+        this.status = Status.IN_PROGRESS;
     }
 
     public reservation(String firstName, String lastName, Date reservationDate, float paidDeposit, travelPkg bookedPkg) {
@@ -78,6 +88,14 @@ public class reservation {
 
     public void setBookedPkg(travelPkg bookedPkg) {
         this.bookedPkg = bookedPkg;
+    }
+
+    public void setStatus(Status stat) {
+        this.status = stat;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     @Override
