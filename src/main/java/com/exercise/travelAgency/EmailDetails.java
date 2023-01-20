@@ -3,13 +3,14 @@ package com.exercise.travelAgency;
 import jakarta.annotation.Nullable;
 
 public class EmailDetails {
-    private String from, to, subject, text, pathToAttachment, attachmentName;
+    private String from, subject, text, pathToAttachment, attachmentName;
+    private String[] to;
 
     @Nullable
     private String cc;
     public boolean hasCC;
 
-    public EmailDetails(String from, String to, String subject, String text, String pathToAttachment, String attachmentName) {
+    /*public EmailDetails(String from, String[] to, String subject, String text, String pathToAttachment, String attachmentName) {
         this.from = from;
         this.to = to;
         this.subject = subject;
@@ -17,17 +18,21 @@ public class EmailDetails {
         this.pathToAttachment = pathToAttachment;
         this.attachmentName = attachmentName;
         this.hasCC = false;
-    }
+    }*/
 
-    public EmailDetails(String from, String to, String subject, String text, String pathToAttachment, String attachmentName, String cc) {
+    public EmailDetails(String from, String[] to, String subject, String text, String pathToAttachment, String attachmentName, String cc) {
         this.from = from;
         this.to = to;
         this.subject = subject;
         this.text = text;
         this.pathToAttachment = pathToAttachment;
         this.attachmentName = attachmentName;
-        this.cc = cc;
-        this.hasCC = true;
+        if(!(cc.isEmpty())) {
+            this.hasCC=true;
+            this.cc = cc;
+        }
+        else
+            this.hasCC=false;
     }
 
     public String getFrom() {
@@ -38,11 +43,11 @@ public class EmailDetails {
         this.from = from;
     }
 
-    public String getTo() {
+    public String[] getTo() {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setTo(String[] to) {
         this.to = to;
     }
 
