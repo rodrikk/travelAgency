@@ -1,9 +1,15 @@
 package com.exercise.travelAgency;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
 
 @Component
 public class EmailService {
@@ -23,5 +29,23 @@ public class EmailService {
 
     public void sendSimpleMessage(SimpleMailMessage message) {
         emailSender.send(message);
+    }
+
+    public void sendMimeMessage(EmailDetails details) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setFrom(details.getFrom());
+        helper.setTo(details.getTo());
+        helper.setSubject(details.getSubject());
+        helper.setText(details.getText());
+
+        FileSystemResource file
+                = new FileSystemResource(new File(details.getPathToAttachment()));
+        helper.addAttachment(details.getAttachmentName(), file);
+
+        emailSender.send(message);
+
     }
 }
