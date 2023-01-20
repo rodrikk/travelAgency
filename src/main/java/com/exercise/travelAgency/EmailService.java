@@ -41,6 +41,9 @@ public class EmailService {
         helper.setSubject(details.getSubject());
         helper.setText(details.getText());
 
+        if(details.isHasCC())
+            helper.setCc(details.getCc());
+
         FileSystemResource file
                 = new FileSystemResource(new File(details.getPathToAttachment()));
         helper.addAttachment(details.getAttachmentName(), file);
