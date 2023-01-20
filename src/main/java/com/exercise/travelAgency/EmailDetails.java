@@ -7,7 +7,7 @@ public class EmailDetails {
     private String[] to;
 
     @Nullable
-    private String cc;
+    private String[] cc;
     public boolean hasCC;
 
     /*public EmailDetails(String from, String[] to, String subject, String text, String pathToAttachment, String attachmentName) {
@@ -20,14 +20,14 @@ public class EmailDetails {
         this.hasCC = false;
     }*/
 
-    public EmailDetails(String from, String[] to, String subject, String text, String pathToAttachment, String attachmentName, String cc) {
+    public EmailDetails(String from, String[] to, String subject, String text, String pathToAttachment, String attachmentName, String[] cc) {
         this.from = from;
         this.to = to;
         this.subject = subject;
         this.text = text;
         this.pathToAttachment = pathToAttachment;
         this.attachmentName = attachmentName;
-        if(!(cc.isEmpty())) {
+        if(!(cc[0].isEmpty())) {
             this.hasCC=true;
             this.cc = cc;
         }
@@ -83,11 +83,11 @@ public class EmailDetails {
         this.attachmentName = attachmentName;
     }
 
-    public String getCc() {
+    public String[] getCc() {
         return cc;
     }
 
-    public void setCc(String cc) {
+    public void setCc(String[] cc) {
         this.cc = cc;
     }
 
