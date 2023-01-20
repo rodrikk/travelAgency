@@ -31,5 +31,4 @@ public class EmailServiceController {
         this.emailService.sendMimeMessage(request);
         return ResponseEntity.ok(request.getTo());
     }
-
 }
