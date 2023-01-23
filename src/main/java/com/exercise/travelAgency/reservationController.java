@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.hateoas.*;
 import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpHeaders;
@@ -25,13 +27,23 @@ class reservationController {
 
     private final reservationRepository repository;
     private final reservationModelAssembler assembler;
-
+    private final TypeMap<reservation, reservationDTO> mapper;
     private final travelPkgController packCont;
 
     public reservationController(reservationRepository repository, reservationModelAssembler assemble, travelPkgController packCon) {
         this.repository = repository;
         this.assembler = assemble;
         this.packCont = packCon;
+        ModelMapper aux = new ModelMapper();
+        this.mapper = aux.createTypeMap(reservation.class, reservationDTO.class);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getAirLineName() , reservationDTO::setAirLineName);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getDestination() , reservationDTO::setDestination);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getDepartDate() , reservationDTO::setDepartDate);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getHotelName() , reservationDTO::setHotelName);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getHotelService() , reservationDTO::setHotelService);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getReturnDate() , reservationDTO::setReturnDate);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getReturnFlight() , reservationDTO::setReturnFlight);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getPricePerPerson() , reservationDTO::setPricePerPerson);
     }
 
 
@@ -62,6 +74,16 @@ class reservationController {
                 .orElseThrow(() -> new reservationNotFoundException(id));
 
         return assembler.toModel(res);
+    }
+
+    @GetMapping("/reservationDTO/{id}")
+    reservationDTO getOneDTO(@PathVariable Integer id) {
+        return this.convertToDTO(repository.findById(id)
+                .orElseThrow(() -> new reservationNotFoundException(id)));
+    }
+
+    private reservationDTO convertToDTO(reservation reserve) {
+        return this.mapper.map(reserve);
     }
 
     @GetMapping("/reservations/{id}/bookedPkg")

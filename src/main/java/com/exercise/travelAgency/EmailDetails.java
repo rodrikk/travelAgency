@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import lombok.EqualsAndHashCode;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

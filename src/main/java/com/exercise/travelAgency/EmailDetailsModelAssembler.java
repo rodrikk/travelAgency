@@ -10,8 +10,8 @@ public class EmailDetailsModelAssembler implements RepresentationModelAssembler<
     @Override
     public EntityModel<EmailDetails> toModel(EmailDetails entity) {
         return EntityModel.of(entity, //
-                linkTo(methodOn(EmailServiceController.class).one(entity.getId())).withSelfRel(),
-                linkTo(methodOn(EmailServiceController.class).all()).withRel("emails"));
+                linkTo(methodOn(EmailDetailsController.class).one(entity.getId())).withSelfRel(),
+                linkTo(methodOn(EmailDetailsController.class).all()).withRel("emails"));
     }
 }
 
