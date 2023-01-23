@@ -1,32 +1,44 @@
 package com.exercise.travelAgency;
 
 import jakarta.annotation.Nullable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
+import java.util.Arrays;
+import java.util.Objects;
+
+@Entity
 public class EmailDetails {
-    private String from, subject, text, pathToAttachment, attachmentName;
-    private String[] to;
+    private @Id@GeneratedValue Integer id;
+    private String subject, text;
 
+    @Column(name="send_address")
+    private String from;
+
+    @Column(name="destination")
+    private String[] to;
+    @Nullable
+    private String pathToAttachment, attachmentName;
     @Nullable
     private String[] cc;
-    public boolean hasCC;
+    public boolean hasCC, hasAtt;
 
-    /*public EmailDetails(String from, String[] to, String subject, String text, String pathToAttachment, String attachmentName) {
-        this.from = from;
-        this.to = to;
-        this.subject = subject;
-        this.text = text;
-        this.pathToAttachment = pathToAttachment;
-        this.attachmentName = attachmentName;
-        this.hasCC = false;
-    }*/
+    public EmailDetails() {}
 
     public EmailDetails(String from, String[] to, String subject, String text, String pathToAttachment, String attachmentName, String[] cc) {
         this.from = from;
         this.to = to;
         this.subject = subject;
         this.text = text;
-        this.pathToAttachment = pathToAttachment;
-        this.attachmentName = attachmentName;
+        if(!pathToAttachment.isEmpty()) {
+            this.pathToAttachment = pathToAttachment;
+            this.attachmentName = attachmentName;
+            this.hasAtt=true;
+        }
+        else
+            this.hasAtt=false;
         if(!(cc[0].isEmpty())) {
             this.hasCC=true;
             this.cc = cc;
@@ -97,5 +109,49 @@ public class EmailDetails {
 
     public void setHasCC(boolean hasCC) {
         this.hasCC = hasCC;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof EmailDetails))
+            return false;
+        else if(obj==this)
+            return true;
+        else {
+            EmailDetails aux = (EmailDetails) obj;
+            return this.id==aux.getId()&&this.getTo().equals(aux.getTo())&&this.getFrom().equals(aux.getFrom());
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.to, this.from, this.subject);
+    }
+
+    @Override
+    public String toString() {
+        String ret =  "EmailDetails{" +
+                "id=" + id +
+                ", from='" + from + '\'' +
+                ", subject='" + subject + '\'' +
+                ", text='" + text + '\'' +
+                ", to=" + Arrays.toString(to);
+        if(this.hasCC) {
+            ret+=", cc=" + Arrays.toString(cc);
+        }
+        if(this.hasAtt)
+            ret+=", pathToAttachment='" + pathToAttachment + '\'' +
+                 ", attachmentName='" + attachmentName + '\'';
+
+        ret += '}';
+        return ret;
     }
 }
