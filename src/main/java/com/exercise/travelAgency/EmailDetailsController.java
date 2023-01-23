@@ -13,14 +13,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-public class EmailServiceController {
+public class EmailDetailsController {
 
     private EmailDetailsRepository repository;
     private EmailDetailsModelAssembler assembler;
     private JavaMailSender emailSender;
     private EmailService emailService;
 
-    public EmailServiceController(EmailDetailsRepository repo, EmailDetailsModelAssembler assemble, JavaMailSender emailSender) {
+    public EmailDetailsController(EmailDetailsRepository repo, EmailDetailsModelAssembler assemble, JavaMailSender emailSender) {
         this.repository = repo;
         this.assembler = assemble;
         this.emailSender = emailSender;
@@ -36,7 +36,7 @@ public class EmailServiceController {
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
 
-        return CollectionModel.of(emails, linkTo(methodOn(EmailServiceController.class).all()).withSelfRel());
+        return CollectionModel.of(emails, linkTo(methodOn(EmailDetailsController.class).all()).withSelfRel());
     }
     // end::get-aggregate-root[]
 
