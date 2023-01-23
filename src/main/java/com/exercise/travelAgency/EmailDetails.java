@@ -5,18 +5,25 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.EqualsAndHashCode;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class EmailDetails {
+    @EqualsAndHashCode.Include
     private @Id@GeneratedValue Integer id;
-    private String subject, text;
+    @EqualsAndHashCode.Include
+    private String subject;
+    private String text;
 
+    @EqualsAndHashCode.Include
     @Column(name="send_address")
     private String from;
 
+    @EqualsAndHashCode.Include
     @Column(name="destination")
     private String[] to;
     @Nullable
@@ -117,23 +124,6 @@ public class EmailDetails {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(!(obj instanceof EmailDetails))
-            return false;
-        else if(obj==this)
-            return true;
-        else {
-            EmailDetails aux = (EmailDetails) obj;
-            return this.id==aux.getId()&&this.getTo().equals(aux.getTo())&&this.getFrom().equals(aux.getFrom());
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.id, this.to, this.from, this.subject);
     }
 
     @Override
