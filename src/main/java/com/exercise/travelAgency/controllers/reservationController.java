@@ -42,8 +42,14 @@ class reservationController {
         this.repository = repository;
         this.assembler = assemble;
         this.packCont = packCon;
+        //Type mapper generated to map the Reservation entity to the reservationDTOs
         ModelMapper aux = new ModelMapper();
         this.mapper = aux.createTypeMap(reservation.class, reservationDTO.class);
+        this.mapperSetup();
+    }
+
+    //Function used to set the mapper up so that it also maps the data of the Booked package associated with the reservation.
+    private void mapperSetup() {
         this.mapper.addMapping(reservation -> reservation.getBookedPkg().getAirLineName() , reservationDTO::setAirLineName);
         this.mapper.addMapping(reservation -> reservation.getBookedPkg().getDestination() , reservationDTO::setDestination);
         this.mapper.addMapping(reservation -> reservation.getBookedPkg().getDepartDate() , reservationDTO::setDepartDate);
@@ -94,6 +100,7 @@ class reservationController {
         return this.mapper.map(reserve);
     }
 
+    //Function that handles GET requests for the Travel Package associated with a reservation.
     @GetMapping("/reservations/{id}/bookedPkg")
     EntityModel<travelPkg> getsPack(@PathVariable Integer id) {
         return packCont.one(repository.findById(id)
@@ -119,6 +126,7 @@ class reservationController {
                 });
     }
 
+    //Method that handles the update of the Travel package associated with a Reservation.
     @PutMapping("/reservations/{id}/bookedPkg")
     reservation replaceBookedPkg(@RequestBody String packLink, @PathVariable Integer id) {
         org.springframework.web.util.UriTemplate uriTemplate = new org.springframework.web.util.UriTemplate("/travelPkgs/{packId}");
@@ -137,6 +145,7 @@ class reservationController {
         repository.deleteById(id);
     }
 
+    //Method that can be used to set the Status of a Reservation to Cancelled over HTTP
     @DeleteMapping("/reservations/{id}/cancel")
     public ResponseEntity<?> cancel(@PathVariable Integer id) {
 
@@ -156,6 +165,7 @@ class reservationController {
                         .withDetail("You can't cancel an order that is in the " + reserve.getStatus() + " status"));
     }
 
+    //Method that can be used to set the Status of a Reservation to Completed over HTTP
     @PutMapping("/reservations/{id}/complete")
     public ResponseEntity<?> complete(@PathVariable Integer id) {
 
