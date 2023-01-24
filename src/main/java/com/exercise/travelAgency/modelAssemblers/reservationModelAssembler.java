@@ -1,7 +1,11 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.modelAssemblers;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+import com.exercise.travelAgency.models.Status;
+import com.exercise.travelAgency.controllers.reservationController;
+import com.exercise.travelAgency.controllers.travelPkgController;
+import com.exercise.travelAgency.models.reservation;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
@@ -22,7 +26,7 @@ public class reservationModelAssembler implements RepresentationModelAssembler<r
                     linkTo(methodOn(reservationController.class).all()).withRel("reservations"));
         }
 
-        if(entity.getStatus()==Status.IN_PROGRESS) {
+        if(entity.getStatus()== Status.IN_PROGRESS) {
             modelo.add(linkTo(methodOn(reservationController.class).cancel(entity.getId())).withRel("Cancel"));
             modelo.add(linkTo(methodOn(reservationController.class).complete(entity.getId())).withRel("Complete"));
         }

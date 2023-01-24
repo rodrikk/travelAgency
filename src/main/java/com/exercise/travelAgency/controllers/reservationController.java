@@ -1,9 +1,18 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.controllers;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.exercise.travelAgency.DTOs.reservationDTO;
+import com.exercise.travelAgency.exceptions.reservationNotFoundException;
+import com.exercise.travelAgency.modelAssemblers.reservationModelAssembler;
+import com.exercise.travelAgency.models.Status;
+import com.exercise.travelAgency.models.reservation;
+import com.exercise.travelAgency.models.travelPkg;
+import com.exercise.travelAgency.repositories.reservationRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.hateoas.*;
 import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpHeaders;
@@ -21,24 +30,35 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+public
 class reservationController {
 
     private final reservationRepository repository;
     private final reservationModelAssembler assembler;
-
+    private final TypeMap<reservation, reservationDTO> mapper;
     private final travelPkgController packCont;
 
     public reservationController(reservationRepository repository, reservationModelAssembler assemble, travelPkgController packCon) {
         this.repository = repository;
         this.assembler = assemble;
         this.packCont = packCon;
+        ModelMapper aux = new ModelMapper();
+        this.mapper = aux.createTypeMap(reservation.class, reservationDTO.class);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getAirLineName() , reservationDTO::setAirLineName);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getDestination() , reservationDTO::setDestination);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getDepartDate() , reservationDTO::setDepartDate);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getHotelName() , reservationDTO::setHotelName);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getHotelService() , reservationDTO::setHotelService);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getReturnDate() , reservationDTO::setReturnDate);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getReturnFlight() , reservationDTO::setReturnFlight);
+        this.mapper.addMapping(reservation -> reservation.getBookedPkg().getPricePerPerson() , reservationDTO::setPricePerPerson);
     }
 
 
     // Aggregate root
     // tag::get-aggregate-root[]
     @GetMapping("/reservations")
-    CollectionModel<EntityModel<reservation>> all() {
+    public CollectionModel<EntityModel<reservation>> all() {
 
         List<EntityModel<reservation>> reserves = repository.findAll().stream()
                 .map(assembler::toModel)
@@ -56,12 +76,22 @@ class reservationController {
     // Single item
 
     @GetMapping("/reservations/{id}")
-    EntityModel<reservation> one(@PathVariable Integer id) {
+    public EntityModel<reservation> one(@PathVariable Integer id) {
 
         reservation res = repository.findById(id)
                 .orElseThrow(() -> new reservationNotFoundException(id));
 
         return assembler.toModel(res);
+    }
+
+    @GetMapping("/reservationDTO/{id}")
+    public reservationDTO getOneDTO(@PathVariable Integer id) {
+        return this.convertToDTO(repository.findById(id)
+                .orElseThrow(() -> new reservationNotFoundException(id)));
+    }
+
+    private reservationDTO convertToDTO(reservation reserve) {
+        return this.mapper.map(reserve);
     }
 
     @GetMapping("/reservations/{id}/bookedPkg")
@@ -108,7 +138,7 @@ class reservationController {
     }
 
     @DeleteMapping("/reservations/{id}/cancel")
-    ResponseEntity<?> cancel(@PathVariable Integer id) {
+    public ResponseEntity<?> cancel(@PathVariable Integer id) {
 
         reservation reserve = repository.findById(id) //
                 .orElseThrow(() -> new reservationNotFoundException(id));
@@ -127,7 +157,7 @@ class reservationController {
     }
 
     @PutMapping("/reservations/{id}/complete")
-    ResponseEntity<?> complete(@PathVariable Integer id) {
+    public ResponseEntity<?> complete(@PathVariable Integer id) {
 
         reservation reserve = repository.findById(id) //
                 .orElseThrow(() -> new reservationNotFoundException(id));

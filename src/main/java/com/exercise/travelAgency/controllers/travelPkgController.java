@@ -1,8 +1,11 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.controllers;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.exercise.travelAgency.models.travelPkg;
+import com.exercise.travelAgency.modelAssemblers.travelPkgModelAssembler;
+import com.exercise.travelAgency.repositories.travelPkgRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +20,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+public
 class travelPkgController {
 
     private final travelPkgRepository repository;
@@ -31,7 +35,7 @@ class travelPkgController {
     // Aggregate root
     // tag::get-aggregate-root[]
     @GetMapping("/travelPkgs")
-    CollectionModel<EntityModel<travelPkg>> all() {
+    public CollectionModel<EntityModel<travelPkg>> all() {
 
         List<EntityModel<travelPkg>> packs = repository.findAll().stream()
                 .map(assembler::toModel)

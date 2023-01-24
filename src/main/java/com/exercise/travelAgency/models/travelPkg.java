@@ -1,22 +1,21 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
+@Entity @NoArgsConstructor
 public class travelPkg {
     private @Id @GeneratedValue Integer id;
     private String airLineName, hotelName, destination, hotelService;
     private float pricePerPerson;
     private Date returnDate, departDate;
     private LocalDateTime returnFlight;
-
-    public travelPkg(){}
 
     public travelPkg(String airLineName, String hotelName, String destination, String hotelService, float pricePerPerson, Date returnDate, Date departDate, LocalDateTime returnFlight) {
         this.airLineName = airLineName;

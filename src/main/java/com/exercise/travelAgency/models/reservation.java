@@ -1,21 +1,19 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.models;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.Objects;
 
-enum Status {
-
-    IN_PROGRESS, //
-    COMPLETED, //
-    CANCELLED
-}
-
-@Entity
+@Entity @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class reservation {
+    @EqualsAndHashCode.Include
     private @Id @GeneratedValue Integer id;
+    @EqualsAndHashCode.Include
     private String firstName, lastName;
+    @EqualsAndHashCode.Include
     private Date reservationDate;
     private float paidDeposit;
 
@@ -24,7 +22,6 @@ public class reservation {
     @ManyToOne @JoinColumn(name="pack_id", referencedColumnName = "id")
     private travelPkg bookedPkg;
 
-    public reservation() {}
 
     public reservation(String firstName, String lastName, Date reservationDate, float paidDeposit) {
         this.firstName = firstName;
@@ -99,26 +96,8 @@ public class reservation {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(!(obj instanceof reservation))
-            return false;
-        else if(obj==this)
-            return true;
-        else {
-            reservation aux = (reservation) obj;
-            return this.id==aux.getId()&&this.firstName.equals(aux.getFirstName())&&
-                    this.lastName.equals(aux.getLastName())&&this.reservationDate.equals(aux.getReservationDate());
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.id, this.firstName, this.lastName, this.reservationDate);
-    }
-
-    @Override
     public String toString() {
-        return "reservations{" +
+        return "reservation{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
