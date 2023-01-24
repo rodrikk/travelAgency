@@ -6,6 +6,10 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+/*
+* DTO used to transfer the joined data of a given Reservation by a client AND the data of the booked
+* Travel Package in a single transfer.
+* */
 @AllArgsConstructor @NoArgsConstructor
 public class reservationDTO {
     @Getter @Setter

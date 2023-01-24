@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+//Entity that stores the details of the emails sent through the Email Service
 public class EmailDetails {
     @EqualsAndHashCode.Include
     private @Id@GeneratedValue Integer id;

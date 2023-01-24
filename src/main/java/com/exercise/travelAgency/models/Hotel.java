@@ -7,6 +7,7 @@ import lombok.*;
 @Table(name = "hotel")
 @NoArgsConstructor
 @Data
+//Entity generated through JPA Buddy
 public class Hotel {
     @Id
     @GeneratedValue

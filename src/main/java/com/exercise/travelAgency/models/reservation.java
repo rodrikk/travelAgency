@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Entity @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+//Entity representing a reservation made by a client of a given Travel Package
 public class reservation {
     @EqualsAndHashCode.Include
     private @Id @GeneratedValue Integer id;

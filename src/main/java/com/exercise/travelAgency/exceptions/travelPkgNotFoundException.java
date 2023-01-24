@@ -1,4 +1,4 @@
-package com.exercise.travelAgency.controllers;
+package com.exercise.travelAgency.exceptions;
 
 public class travelPkgNotFoundException extends RuntimeException{
 

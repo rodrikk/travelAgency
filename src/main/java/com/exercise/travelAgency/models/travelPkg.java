@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity @NoArgsConstructor
+//Entity representing the Travel Packages the Travel Agency offers to its clients.
 public class travelPkg {
     private @Id @GeneratedValue Integer id;
     private String airLineName, hotelName, destination, hotelService;
