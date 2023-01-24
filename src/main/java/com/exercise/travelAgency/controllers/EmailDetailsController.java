@@ -1,5 +1,10 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.controllers;
 
+import com.exercise.travelAgency.exceptions.EmailDetailsNotFoundException;
+import com.exercise.travelAgency.modelAssemblers.EmailDetailsModelAssembler;
+import com.exercise.travelAgency.repositories.EmailDetailsRepository;
+import com.exercise.travelAgency.services.EmailService;
+import com.exercise.travelAgency.models.EmailDetails;
 import jakarta.mail.MessagingException;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -30,7 +35,7 @@ public class EmailDetailsController {
     // Aggregate root
     // tag::get-aggregate-root[]
     @GetMapping("/emails")
-    CollectionModel<EntityModel<EmailDetails>> all() {
+    public CollectionModel<EntityModel<EmailDetails>> all() {
 
         List<EntityModel<EmailDetails>> emails = repository.findAll().stream()
                 .map(assembler::toModel)
@@ -41,7 +46,7 @@ public class EmailDetailsController {
     // end::get-aggregate-root[]
 
     @GetMapping("/emails/{id}")
-    EntityModel<EmailDetails> one(@PathVariable Integer id) {
+    public EntityModel<EmailDetails> one(@PathVariable Integer id) {
 
         EmailDetails email = repository.findById(id)
                 .orElseThrow(() -> new EmailDetailsNotFoundException(id));

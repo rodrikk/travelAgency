@@ -1,5 +1,6 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.controllers;
 
+import com.exercise.travelAgency.exceptions.reservationNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -7,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-class travelPkgNotFoundAdvice {
+class reservationNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(travelPkgNotFoundException.class)
+    @ExceptionHandler(reservationNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(travelPkgNotFoundException ex) {
+    String employeeNotFoundHandler(reservationNotFoundException ex) {
         return ex.getMessage();
     }
 }

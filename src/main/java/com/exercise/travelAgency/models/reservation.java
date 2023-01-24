@@ -1,18 +1,10 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.models;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.Objects;
-
-enum Status {
-
-    IN_PROGRESS, //
-    COMPLETED, //
-    CANCELLED
-}
 
 @Entity @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

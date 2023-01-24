@@ -1,5 +1,11 @@
 package com.exercise.travelAgency;
 
+import com.exercise.travelAgency.models.Hotel;
+import com.exercise.travelAgency.models.reservation;
+import com.exercise.travelAgency.models.travelPkg;
+import com.exercise.travelAgency.repositories.HotelRepository;
+import com.exercise.travelAgency.repositories.reservationRepository;
+import com.exercise.travelAgency.repositories.travelPkgRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

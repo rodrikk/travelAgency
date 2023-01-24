@@ -1,4 +1,4 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.models;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;

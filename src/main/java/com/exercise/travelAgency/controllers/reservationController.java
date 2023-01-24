@@ -1,9 +1,16 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.controllers;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.exercise.travelAgency.DTOs.reservationDTO;
+import com.exercise.travelAgency.exceptions.reservationNotFoundException;
+import com.exercise.travelAgency.modelAssemblers.reservationModelAssembler;
+import com.exercise.travelAgency.models.Status;
+import com.exercise.travelAgency.models.reservation;
+import com.exercise.travelAgency.models.travelPkg;
+import com.exercise.travelAgency.repositories.reservationRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.hateoas.*;
@@ -23,6 +30,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+public
 class reservationController {
 
     private final reservationRepository repository;
@@ -50,7 +58,7 @@ class reservationController {
     // Aggregate root
     // tag::get-aggregate-root[]
     @GetMapping("/reservations")
-    CollectionModel<EntityModel<reservation>> all() {
+    public CollectionModel<EntityModel<reservation>> all() {
 
         List<EntityModel<reservation>> reserves = repository.findAll().stream()
                 .map(assembler::toModel)
@@ -68,7 +76,7 @@ class reservationController {
     // Single item
 
     @GetMapping("/reservations/{id}")
-    EntityModel<reservation> one(@PathVariable Integer id) {
+    public EntityModel<reservation> one(@PathVariable Integer id) {
 
         reservation res = repository.findById(id)
                 .orElseThrow(() -> new reservationNotFoundException(id));
@@ -77,7 +85,7 @@ class reservationController {
     }
 
     @GetMapping("/reservationDTO/{id}")
-    reservationDTO getOneDTO(@PathVariable Integer id) {
+    public reservationDTO getOneDTO(@PathVariable Integer id) {
         return this.convertToDTO(repository.findById(id)
                 .orElseThrow(() -> new reservationNotFoundException(id)));
     }
@@ -130,7 +138,7 @@ class reservationController {
     }
 
     @DeleteMapping("/reservations/{id}/cancel")
-    ResponseEntity<?> cancel(@PathVariable Integer id) {
+    public ResponseEntity<?> cancel(@PathVariable Integer id) {
 
         reservation reserve = repository.findById(id) //
                 .orElseThrow(() -> new reservationNotFoundException(id));
@@ -149,7 +157,7 @@ class reservationController {
     }
 
     @PutMapping("/reservations/{id}/complete")
-    ResponseEntity<?> complete(@PathVariable Integer id) {
+    public ResponseEntity<?> complete(@PathVariable Integer id) {
 
         reservation reserve = repository.findById(id) //
                 .orElseThrow(() -> new reservationNotFoundException(id));

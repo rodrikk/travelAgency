@@ -1,5 +1,6 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.DTOs;
 
+import com.exercise.travelAgency.models.Status;
 import lombok.*;
 
 import java.time.LocalDateTime;

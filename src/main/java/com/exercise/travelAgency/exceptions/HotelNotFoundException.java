@@ -1,7 +1,7 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.exceptions;
 
 public class HotelNotFoundException extends RuntimeException{
-    HotelNotFoundException(Integer id) {
+    public HotelNotFoundException(Integer id) {
         super("Could not find hotel " + id);
     }
 }

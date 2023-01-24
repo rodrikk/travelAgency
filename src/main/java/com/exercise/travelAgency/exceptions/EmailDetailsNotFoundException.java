@@ -1,7 +1,7 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.exceptions;
 
 public class EmailDetailsNotFoundException extends RuntimeException{
-    EmailDetailsNotFoundException(Integer id) {
+    public EmailDetailsNotFoundException(Integer id) {
         super("Could not find email " + id);
     }
 }
