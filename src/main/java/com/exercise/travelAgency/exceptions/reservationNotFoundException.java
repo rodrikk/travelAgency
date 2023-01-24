@@ -1,8 +1,8 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.exceptions;
 
 public class reservationNotFoundException extends RuntimeException{
 
-    reservationNotFoundException(Integer id) {
+    public reservationNotFoundException(Integer id) {
         super("Could not find reservation " + id);
     }
 

@@ -1,7 +1,9 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.modelAssemblers;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+import com.exercise.travelAgency.controllers.EmailDetailsController;
+import com.exercise.travelAgency.models.EmailDetails;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;

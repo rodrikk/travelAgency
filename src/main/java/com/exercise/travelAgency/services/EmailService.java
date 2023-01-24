@@ -1,5 +1,6 @@
-package com.exercise.travelAgency;
+package com.exercise.travelAgency.services;
 
+import com.exercise.travelAgency.models.EmailDetails;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.core.io.FileSystemResource;
