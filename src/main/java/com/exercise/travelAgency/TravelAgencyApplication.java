@@ -12,6 +12,7 @@ public class TravelAgencyApplication {
 		SpringApplication.run(TravelAgencyApplication.class, args);
 	}
 
+	//Bean used to make the modelMapper constructor available throughout the entire Springboot application where needed.
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();

@@ -59,6 +59,7 @@ public class EmailDetailsController {
         repository.deleteById(id);
     }
 
+    //Method that handles the input of the Email Details of the message that the user wants to send.
     @PostMapping("/email/send")
     public EmailDetails sendMimeEmail(@RequestBody EmailDetails request) throws MessagingException {
         this.emailService.sendMimeMessage(request);
