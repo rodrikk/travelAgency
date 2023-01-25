@@ -1,13 +1,13 @@
 package com.exercise.travelAgency.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity @NoArgsConstructor
 //Entity representing the Travel Packages the Travel Agency offers to its clients.
@@ -17,6 +17,9 @@ public class travelPkg {
     private float pricePerPerson;
     private Date returnDate, departDate;
     private LocalDateTime returnFlight;
+
+    @OneToMany(mappedBy = "bookedPkg") @JsonIgnore
+    private Set<reservation> reservations;
 
     public travelPkg(String airLineName, String hotelName, String destination, String hotelService, float pricePerPerson, Date returnDate, Date departDate, LocalDateTime returnFlight) {
         this.airLineName = airLineName;

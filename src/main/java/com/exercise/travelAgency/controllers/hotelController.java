@@ -1,8 +1,9 @@
 package com.exercise.travelAgency.controllers;
 
-import com.exercise.travelAgency.exceptions.HotelNotFoundException;
-import com.exercise.travelAgency.repositories.HotelRepository;
-import com.exercise.travelAgency.models.Hotel;
+import com.exercise.travelAgency.exceptions.hotelNotFoundException;
+import com.exercise.travelAgency.repositories.hotelRepository;
+import com.exercise.travelAgency.models.hotel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,38 +14,37 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-public class HotelController {
-    private final HotelRepository repository;
+public class hotelController {
+    @Autowired
+    private hotelRepository repository;
 
-    public HotelController(HotelRepository repository) {
-        this.repository = repository;
-    }
+    public hotelController() {}
 
     // Aggregate root
     // tag::get-aggregate-root[]
     @GetMapping("/hotels")
-    CollectionModel<Hotel> all() {
+    CollectionModel<hotel> all() {
 
-        List<Hotel> hotels = repository.findAll().stream()
+        List<hotel> hotels = repository.findAll().stream()
                 .collect(Collectors.toList());
 
-        return CollectionModel.of(hotels, linkTo(methodOn(HotelController.class).all()).withSelfRel());
+        return CollectionModel.of(hotels, linkTo(methodOn(hotelController.class).all()).withSelfRel());
     }
     // end::get-aggregate-root[]
 
     @PostMapping("/hotels")
-    Hotel newHotel(@RequestBody Hotel newhotel) {
+    hotel newHotel(@RequestBody hotel newhotel) {
         return repository.save(newhotel);
     }
 
     @GetMapping("/hotels/{id}")
-    Hotel one(@PathVariable Integer id) {
+    hotel one(@PathVariable Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new HotelNotFoundException(id));
+                .orElseThrow(() -> new hotelNotFoundException(id));
     }
 
     @PutMapping("/hotels/{id}")
-    Hotel replaceHotel(@RequestBody Hotel newhotel, @PathVariable Integer id) {
+    hotel replaceHotel(@RequestBody hotel newhotel, @PathVariable Integer id) {
 
         return repository.findById(id)
                 .map(hotel -> {

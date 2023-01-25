@@ -11,6 +11,8 @@ import com.exercise.travelAgency.models.Status;
 import com.exercise.travelAgency.models.reservation;
 import com.exercise.travelAgency.models.travelPkg;
 import com.exercise.travelAgency.repositories.reservationRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.hateoas.*;
@@ -88,6 +90,18 @@ class reservationController {
                 .orElseThrow(() -> new reservationNotFoundException(id));
 
         return assembler.toModel(res);
+    }
+
+    @GetMapping("/reservationsByName/{firstName}/{lastName}")
+    public List<reservation> findByClientName(@PathVariable String firstName, @PathVariable String lastName) {
+        return repository.findByClientName(firstName, lastName);
+        /*
+        List<EntityModel<reservation>> reserves = repository.findAll().stream()
+                .filter(element -> element.getFirstName().equals(firstName)&&element.getLastName().equals(lastName))
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(reserves, linkTo(methodOn(reservationController.class).all()).withSelfRel());*/
     }
 
     @GetMapping("/reservationDTO/{id}")
