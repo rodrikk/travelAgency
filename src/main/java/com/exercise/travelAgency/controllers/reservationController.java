@@ -90,6 +90,16 @@ class reservationController {
         return assembler.toModel(res);
     }
 
+    @GetMapping("/reservationsByName/{firstName}/{lastName}")
+    public CollectionModel<EntityModel<reservation>> findByClientName(@PathVariable String firstName, @PathVariable String lastName) {
+        List<EntityModel<reservation>> reserves = repository.findAll().stream()
+                .filter(element -> element.getFirstName().equals(firstName)&&element.getLastName().equals(lastName))
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(reserves, linkTo(methodOn(reservationController.class).all()).withSelfRel());
+    }
+
     @GetMapping("/reservationDTO/{id}")
     public reservationDTO getOneDTO(@PathVariable Integer id) {
         return this.convertToDTO(repository.findById(id)

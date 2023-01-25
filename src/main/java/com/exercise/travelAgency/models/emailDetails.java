@@ -12,7 +12,7 @@ import java.util.Arrays;
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 //Entity that stores the details of the emails sent through the Email Service
-public class EmailDetails {
+public class emailDetails {
     @EqualsAndHashCode.Include
     private @Id@GeneratedValue Integer id;
     @EqualsAndHashCode.Include
@@ -32,9 +32,9 @@ public class EmailDetails {
     private String[] cc;
     public boolean hasCC, hasAtt;
 
-    public EmailDetails() {}
+    public emailDetails() {}
 
-    public EmailDetails(String from, String[] to, String subject, String text, String pathToAttachment, String attachmentName, String[] cc) {
+    public emailDetails(String from, String[] to, String subject, String text, String pathToAttachment, String attachmentName, String[] cc) {
         this.from = from;
         this.to = to;
         this.subject = subject;

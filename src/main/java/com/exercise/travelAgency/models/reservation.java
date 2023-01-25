@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Entity @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NamedQuery(name = "reservation.findByClientName", query = "FROM reservation WHERE firstName = ?1 AND lastName = ?2")
 //Entity representing a reservation made by a client of a given Travel Package
 public class reservation {
     @EqualsAndHashCode.Include
@@ -20,7 +21,7 @@ public class reservation {
 
     private Status status;
 
-    @ManyToOne @JoinColumn(name="pack_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.REMOVE) @JoinColumn(name="pack_id", referencedColumnName = "id")
     private travelPkg bookedPkg;
 
 

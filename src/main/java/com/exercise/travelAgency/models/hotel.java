@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 //Entity generated through JPA Buddy
-public class Hotel {
+public class hotel {
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
@@ -16,7 +16,7 @@ public class Hotel {
 
     private String hotelName, hotelService;
 
-    public Hotel(String hotelName, String hotelService) {
+    public hotel(String hotelName, String hotelService) {
         this.hotelName = hotelName;
         this.hotelService = hotelService;
     }

@@ -7,6 +7,7 @@ import com.exercise.travelAgency.exceptions.travelPkgNotFoundException;
 import com.exercise.travelAgency.models.travelPkg;
 import com.exercise.travelAgency.modelAssemblers.travelPkgModelAssembler;
 import com.exercise.travelAgency.repositories.travelPkgRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,13 +24,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 public
 class travelPkgController {
+    @Autowired
+    private travelPkgRepository repository;
+    @Autowired
+    private travelPkgModelAssembler assembler;
 
-    private final travelPkgRepository repository;
-    private final travelPkgModelAssembler assembler;
-
-    public travelPkgController(travelPkgRepository repository, travelPkgModelAssembler assemble) {
-        this.repository = repository;
-        this.assembler = assemble;
+    public travelPkgController() {
     }
 
 

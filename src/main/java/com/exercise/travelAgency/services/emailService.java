@@ -1,6 +1,6 @@
 package com.exercise.travelAgency.services;
 
-import com.exercise.travelAgency.models.EmailDetails;
+import com.exercise.travelAgency.models.emailDetails;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.core.io.FileSystemResource;
@@ -12,14 +12,14 @@ import java.io.File;
 
 @Component
 //Service that handles the traffic of messages through this project
-public class EmailService {
+public class emailService {
 
     private JavaMailSender emailSender;
 
-    public EmailService(JavaMailSender emailSender) {this.emailSender=emailSender;}
+    public emailService(JavaMailSender emailSender) {this.emailSender=emailSender;}
 
     //Method used to send emails
-    public void sendMimeMessage(EmailDetails details) throws MessagingException {
+    public void sendMimeMessage(emailDetails details) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
