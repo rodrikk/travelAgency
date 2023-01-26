@@ -1,5 +1,8 @@
 package com.exercise.travelAgency.controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +63,12 @@ class travelPkgController {
                 .orElseThrow(() -> new travelPkgNotFoundException(id));
 
         return assembler.toModel(pack);
+    }
+
+    @GetMapping("/travelPkgsByDepartDate")
+    public List<travelPkg> findByDepartDate(@RequestBody String stringDepartDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return repository.findByDepartDate(dateFormat.parse(stringDepartDate));
     }
 
     @PutMapping("/travelPkgs/{id}")
