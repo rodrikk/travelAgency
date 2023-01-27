@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface travelPkgRepository extends JpaRepository<travelPkg, Integer> {
     public List<travelPkg> findByDepartDate(Date departDate);
+    public List<travelPkg> findByDateInterval(Date departDate, Date returnDate);
 }
