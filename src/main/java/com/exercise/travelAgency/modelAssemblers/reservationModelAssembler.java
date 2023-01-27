@@ -1,14 +1,15 @@
 package com.exercise.travelAgency.modelAssemblers;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
-import com.exercise.travelAgency.models.Status;
 import com.exercise.travelAgency.controllers.reservationController;
 import com.exercise.travelAgency.controllers.travelPkgController;
+import com.exercise.travelAgency.models.Status;
 import com.exercise.travelAgency.models.reservation;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class reservationModelAssembler implements RepresentationModelAssembler<reservation, EntityModel<reservation>>{
 

@@ -1,7 +1,10 @@
 package com.exercise.travelAgency.DTOs;
 
 import com.exercise.travelAgency.models.Status;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Date;

@@ -2,9 +2,9 @@ package com.exercise.travelAgency.controllers;
 
 import com.exercise.travelAgency.exceptions.emailDetailsNotFoundException;
 import com.exercise.travelAgency.modelAssemblers.emailDetailsModelAssembler;
+import com.exercise.travelAgency.models.emailDetails;
 import com.exercise.travelAgency.repositories.emailDetailsRepository;
 import com.exercise.travelAgency.services.emailService;
-import com.exercise.travelAgency.models.emailDetails;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;

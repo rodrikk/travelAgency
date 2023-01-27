@@ -1,7 +1,8 @@
 package com.exercise.travelAgency.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "hotel")

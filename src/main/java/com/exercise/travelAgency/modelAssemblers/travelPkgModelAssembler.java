@@ -1,12 +1,13 @@
 package com.exercise.travelAgency.modelAssemblers;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
 import com.exercise.travelAgency.controllers.travelPkgController;
 import com.exercise.travelAgency.models.travelPkg;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class travelPkgModelAssembler implements RepresentationModelAssembler<travelPkg, EntityModel<travelPkg>>{
 
