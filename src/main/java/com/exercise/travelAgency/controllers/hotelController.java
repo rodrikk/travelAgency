@@ -1,8 +1,8 @@
 package com.exercise.travelAgency.controllers;
 
 import com.exercise.travelAgency.exceptions.hotelNotFoundException;
-import com.exercise.travelAgency.repositories.hotelRepository;
 import com.exercise.travelAgency.models.hotel;
+import com.exercise.travelAgency.repositories.hotelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.web.bind.annotation.*;

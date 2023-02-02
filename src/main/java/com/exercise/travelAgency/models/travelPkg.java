@@ -10,6 +10,10 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity @NoArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "travelPkg.findByDepartDate", query = "FROM travelPkg WHERE departDate = ?1"),
+        @NamedQuery(name = "travelPkg.findByDateInterval", query = "FROM travelPkg WHERE departDate = ?1 AND returnDate = ?2")
+})
 //Entity representing the Travel Packages the Travel Agency offers to its clients.
 public class travelPkg {
     private @Id @GeneratedValue Integer id;

@@ -91,6 +91,10 @@ public class emailDetails {
     }
 
     public void setPathToAttachment(String pathToAttachment) {
+        if(!pathToAttachment.isEmpty())
+            this.hasAtt=true;
+        else
+            this.hasAtt=false;
         this.pathToAttachment = pathToAttachment;
     }
 

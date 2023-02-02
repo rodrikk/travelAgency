@@ -33,7 +33,7 @@ class LoadDatabase {
         DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         return args -> {
             //One travel package, two reservations, a Hotel, and an empty EmailDetails are added.
-            log.info("Preloading " + repo.save(new travelPkg("Vueling", "Ritz", "Paris", "B&B", 750.50f, dateFormat.parse("31/01/2023"), new Date(), LocalDateTime.from(dtFormat.parse("31/01/2023 16:30")))));
+            log.info("Preloading " + repo.save(new travelPkg("Vueling", "Ritz", "Paris", "B&B", 750.50f, dateFormat.parse("31/01/2023"), dateFormat.parse("26/01/2023"), LocalDateTime.from(dtFormat.parse("31/01/2023 16:30")))));
             log.info("Preloading " + repository.save(new reservation("Bilbo", "Baggins", new Date(), 50.50f)));
             log.info("Preloading " + repository.save(new reservation("Frodo", "Baggins", new Date(), 257.75f)));
             log.info("Preloading " + hotelrepo.save(new hotel("Ritz", "B&B")));

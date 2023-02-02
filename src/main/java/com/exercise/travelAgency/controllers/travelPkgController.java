@@ -1,22 +1,19 @@
 package com.exercise.travelAgency.controllers;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.exercise.travelAgency.exceptions.travelPkgNotFoundException;
-import com.exercise.travelAgency.models.travelPkg;
 import com.exercise.travelAgency.modelAssemblers.travelPkgModelAssembler;
+import com.exercise.travelAgency.models.travelPkg;
 import com.exercise.travelAgency.repositories.travelPkgRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -60,6 +57,18 @@ class travelPkgController {
                 .orElseThrow(() -> new travelPkgNotFoundException(id));
 
         return assembler.toModel(pack);
+    }
+
+    @GetMapping("/travelPkgsByDepartDate")
+    public List<travelPkg> findByDepartDate(@RequestBody String stringDepartDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return repository.findByDepartDate(dateFormat.parse(stringDepartDate));
+    }
+
+    @GetMapping("/travelPkgsByDateInterval")
+    public List<travelPkg> findByDateInterval(@RequestBody Map<String, String> request) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return repository.findByDateInterval(dateFormat.parse(request.get("stringDepartDate")), dateFormat.parse(request.get("stringReturnDate")));
     }
 
     @PutMapping("/travelPkgs/{id}")

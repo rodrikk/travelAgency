@@ -1,9 +1,5 @@
 package com.exercise.travelAgency.controllers;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import com.exercise.travelAgency.DTOs.reservationDTO;
 import com.exercise.travelAgency.exceptions.reservationNotFoundException;
 import com.exercise.travelAgency.modelAssemblers.reservationModelAssembler;
@@ -11,22 +7,20 @@ import com.exercise.travelAgency.models.Status;
 import com.exercise.travelAgency.models.reservation;
 import com.exercise.travelAgency.models.travelPkg;
 import com.exercise.travelAgency.repositories.reservationRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import org.springframework.hateoas.*;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
